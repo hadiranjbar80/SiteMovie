@@ -1,0 +1,41 @@
+﻿@model IEnumerable<SiteMovie.Domain.Models.Category>
+
+@{
+    ViewData["Title"] = "گروه‌ها";
+}
+
+<p>
+    <a onclick="Create()" class="btn btn-primary">افزودن گروه جدید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupTitle)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupTitle)
+                </td>
+                <td>
+                    <a onclick="Edit(@item.Id)" class="btn btn-warning">ویرایش</a>
+                    <a onclick="Delete(@item.Id)" class="btn btn-danger">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@Html.Partial("_Modal")
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="/js/site.js"></script>
+}

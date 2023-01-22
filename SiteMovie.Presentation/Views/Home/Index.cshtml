@@ -1,0 +1,10 @@
+﻿@model IEnumerable<SiteMovie.Domain.Models.Movies>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*@await Component.InvokeAsync("ShowMovies")*@
+
+@await Component.InvokeAsync("SuggestedMovies")
+@await Component.InvokeAsync("LastCreatedMovies")
+@await Component.InvokeAsync("MostSeenMovies")

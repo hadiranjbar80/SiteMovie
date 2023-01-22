@@ -1,0 +1,22 @@
+﻿@using SiteMovie.Domain.Models
+@model IEnumerable<Movies>
+@if (Model.Any())
+{
+
+    @foreach (var item in Model)
+    {
+        <div class="card" style="width: 15rem; display: inline-block;">
+            <img class="card-img-top" src="/Images/Movies/@item.MovieImage" style="width:230px;height:230px" alt="">
+            <div class="card-body">
+                <h5 class="card-title" style="color:black">@item.MovieTitle</h5>
+                <a href="/ShowMovie/@item.Id" class="btn btn-primary">جزئیات</a>
+            </div>
+        </div>
+    }
+
+
+}
+else
+{
+    <div class="alert alert-info">موردی یافت نشد.</div>
+}

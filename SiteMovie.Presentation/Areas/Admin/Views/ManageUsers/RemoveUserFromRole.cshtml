@@ -1,0 +1,35 @@
+﻿@model SiteMovie.Domain.ViewModels.AddUserToRoleViewModel
+@{
+    ViewData["Title"] = "حذف نقش کاربر";
+}
+
+<h4>حذف نقش کاربر</h4>
+
+<hr />
+
+<form asp-controller="ManageUsers" asp-action="RemoveUserFromRole" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+    @if (!Model.UserRoles.Any())
+    {
+        <div class="alert alert-warning">هیچ مقامی یافت نشد.</div>
+    }
+    else
+    {
+        for (int i = 0; i < Model.UserRoles.Count; i++)
+        {
+            <div class="form-group">
+                <input asp-for="@Model.UserRoles[i].IsSelected" />
+                <label>@Model.UserRoles[i].RoleName</label>
+
+                <input type="hidden" asp-for="@Model.UserRoles[i].RoleName" />
+            </div>
+        }
+    }
+
+    <input type="hidden" asp-for="@Model.UserId" />
+    <button class="btn btn-primary" type="submit">ثبت</button>
+</form>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>

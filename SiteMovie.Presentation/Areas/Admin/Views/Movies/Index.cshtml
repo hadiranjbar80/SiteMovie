@@ -1,0 +1,125 @@
+﻿@model IEnumerable<SiteMovie.Domain.ViewModels.ListMoviesViewModel>
+
+@{
+    ViewData["Title"] = "فیلم ها";
+
+    Pager pager = new Pager();
+
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+<h1>فیلم‌ها</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">فیلم جدید</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Director)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Actors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublishDate)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody id="list">
+@foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img src="~/Images/Movies/@(item.MovieImage)" class="thumbnail" style="width:200px;height:200px" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MovieTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Director)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Actors)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublishDate)
+            </td>
+            <td>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">ویرایش</a>
+                <a class="btn btn-danger" onclick="DeleteMovie(@item.Id)">حذف</a>
+                <a class="btn btn-danger" asp-action="DeleteLink" asp-route-id="@item.Id">حذف لینک</a>
+                <a class="btn btn-info" asp-action="LinkToMovies" asp-route-id="@item.Id">لینک</a>
+            </td>
+        </tr>
+    }
+</tbody>
+</table>
+
+<div class="container">
+    @if (pager.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+
+            @if (pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-controller="Movies" asp-action="Index" asp-area="Admin" asp-route-pageId="1">صفحه اول</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" asp-controller="Movies" asp-action="Index" asp-area="Admin" 
+                       asp-route-pageId="@(pager.CurrentPage-1)">قبلی</a>
+                </li>
+            }
+
+            @for (int pge = pager.StartPage; pge <= pager.EndPage; pge++)
+            {
+                <li class="page-item @(pge==pager.CurrentPage?"active":"")">
+                    <a class="page-link" asp-controller="Movies" asp-action="Index" asp-area="Admin" asp-route-pageId="@pge">@pge</a>
+                </li>
+            }
+
+            @if (pager.CurrentPage < pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-controller="Movies" asp-action="Index" asp-area="Admin" 
+                       asp-route-pageId="@(pager.CurrentPage+1)">بعدی</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" asp-controller="Movies" asp-action="Index" asp-area="Admin" 
+                       asp-route-pageId="@(pager.TotalPages)">صفحه آخر</a>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+<partial name="_Modal" />
+
+@section Scripts{
+    <script src="~/js/site.js"></script>
+}
+
+

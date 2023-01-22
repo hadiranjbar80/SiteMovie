@@ -1,0 +1,103 @@
+﻿@using SiteMovie.Domain.Models;
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> signInManager
+@model dynamic
+
+@{
+    ViewData["Title"] = "";
+    var subscription = ViewBag.Subscriptions;
+    var listGroups = ViewBag.Groups;
+}
+
+@if (Model.Demo != null)
+{
+    <div class="video-container iq-main-slider">
+        <video class="video d-block" controls="" loop="">
+            <source src="/Images/Movies/@Model.Demo" type="video/mp4">
+        </video>
+    </div>
+}
+
+
+
+
+<section class="movie-detail container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="trending-info g-border">
+                <h4 class="trending-text big-title text-uppercase mt-0">@Model.MovieTitle</h4>
+                <p class="text-white">
+                    ژانر:
+                    @foreach (var item in listGroups)
+                    {
+                        <span>
+                            @item.GroupTitle
+                        </span>
+                    }
+                </p>
+                <p class="text-white">
+                    بازیگران: @Model.Actors
+                </p>
+
+                <p class="text-white">
+                    کارگردان: @Model.Director
+                </p>
+                <p class="text-white">
+                    imdb: @Model.imdbRating
+                </p>
+                <p class="text-white">
+                    <ul class="ratting-start p-0 m-0 list-inline text-primary d-flex align-items-center justify-content-left">
+                        امتیاز کاربران:
+                        @for (int i = 0; i < Model.Rating; i += 1)
+                        {
+                            <li>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </li>
+                        }
+                    </ul>
+                </p>
+                <div class="d-flex align-items-center text-white text-detail">
+                    <span class="trending-year"></span>
+                </div>
+                <p class="trending-dec w-100 mb-0"> توضیحات: @Model.Description </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    @if (signInManager.IsSignedIn(User))
+    {
+        if (ViewBag.HasSubscription == true || ViewBag.DownloadCount == true)
+        {
+            <div>
+                <h4 class="text-center">لینک‌های دانلود</h4>
+                @foreach (var item in ViewBag.Links)
+                {
+                    <form asp-action="DownloadMovie" method="post" asp-route-id="@item.Id" class="m-3" onsubmit="count()">
+                        <input type="submit" class="text-center btn btn-info" value="@item.LinkTitle" />
+                    </form>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">برای دانلود بیشتر از 10 فیلم باید اشتراک داشته باشید.</div>
+        }
+        @await Component.InvokeAsync("ShowComments", Model.MovieId)
+        @if (ViewBag.err == true)
+        {
+            <div class="alert alert-danger">متن کامنت را وارد کنید.</div>
+        }
+        @await Component.InvokeAsync("CreateComment", Model.MovieId)
+    }
+    else
+    {
+        <div class="alert alert-info">برای دانلود باید وارد سایت شوید.</div>
+    }
+</div>
+
+@section Scripts{
+    <script src="~/js/site.js"></script>
+}
+

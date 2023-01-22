@@ -1,0 +1,33 @@
+﻿@model IEnumerable<SiteMovie.Domain.ViewModels.ShowCommentsViewModel>
+
+@if (Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <div class="card mt-2">
+            <div class="card-header">
+                نام کاربری : <b>@item.UserName</b>
+                تاریخ ثبت : <b>@item.CreateDate</b>
+            </div>
+            <div class="card-body">
+                متن کامنت : <b>@item.Comment</b>
+            </div>
+            <div class="card-footer">
+                <div class="slider-ratting d-flex align-items-center mr-4 mt-2 mt-md-3">
+                    <ul class="ratting-start p-0 m-0 list-inline text-primary d-flex align-items-center justify-content-left">
+                        @for (double i = 0; i < item.Rating; i += 1.25)
+                        {
+                            <li>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-warning">هنوز کامنتی برای این پست ثبت نشده است.</div>
+}

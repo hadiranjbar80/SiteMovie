@@ -1,0 +1,35 @@
+﻿@model  SiteMovie.Domain.ViewModels.AddUserToRoleViewModel
+@{
+    ViewData["Title"] = "افزودن نقش به کاربر";
+}
+
+<h4>افزودن نقش به کاربر</h4>
+
+<hr />
+
+@if (!Model.UserRoles.Any())
+{
+    <div class="alert alert-warning">هیچ مقامی یافت نشد.</div>
+}
+else
+{
+    <form asp-controller="ManageUsers" asp-action="AddUserToRole" method="post">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        @for (int i = 0; i < Model.UserRoles.Count; i++)
+        {
+            <div class="form-group">
+                <input asp-for="@Model.UserRoles[i].IsSelected" />
+                <label>@Model.UserRoles[i].RoleName</label>
+
+                <input type="hidden" asp-for="@Model.UserRoles[i].RoleName" />
+            </div>
+        }
+        <input type="hidden" asp-for="@Model.UserId" />
+        <button class="btn btn-primary" type="submit">ثبت</button>
+    </form>
+}
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>

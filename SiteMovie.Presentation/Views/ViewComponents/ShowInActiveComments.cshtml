@@ -1,0 +1,63 @@
+﻿@using SiteMovie.Domain.Models
+@model IEnumerable<MovieComments>
+<div class="card">
+    <div class="card-header border-transparent">
+        <h3 class="card-title">آخرین کامنت‌های ثبت شده</h3>
+
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-widget="remove">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0" style="display: block;">
+        <div class="table-responsive">
+            <table class="table m-0">
+                <thead>
+                    <tr>
+                        <th>نام کاربری</th>
+                        <th>متن کامتن</th>
+                        <th>نمره</th>
+                        <th>وضعیت</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ApplicationUserName</td>
+                            <td>@item.Comment</td>
+                            <td style="color:rgb(239, 63, 63)">
+                                @for (int i = 0; i < item.Rating; i += 1)
+                                {
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                }
+                            </td>
+                            <td><span class="badge badge-success">@((item.IsActive==false)?"غیر فعال":"فعال")</span></td>
+                            <td>
+                                <form asp-action="ActivateCommentByAdmin" asp-controller="Home" asp-area="Admin" asp-route-id="@item.Id" method="post">
+                                    <input type="submit" class="btn btn-info" value="نمایش به صورت عمومی" />
+                                </form>
+                                <form asp-action="DeleteCommentByAdmin" asp-controller="Home" asp-area="Admin"
+                                      asp-route-id="@item.Id" method="post">
+                                    <input type="submit" value="حذف کامنت" class="btn btn-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+
+    <div class="card-footer clearfix">
+        <a asp-action="ActiveAllComments" asp-controller="Home" asp-area="Admin" class="btn btn-sm btn-info float-left">تایید همه کامنت‌ها</a>
+        <a asp-action="DeleteAllComments" asp-controller="Home" asp-area="Admin" class="btn btn-sm btn-secondary float-right">حذف همه کامنت‌ها</a>
+    </div>
+</div>

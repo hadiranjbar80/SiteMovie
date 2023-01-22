@@ -1,0 +1,53 @@
+﻿@model SiteMovie.Domain.ViewModels.EditProfileViewModel
+
+@{
+    ViewData["Title"] = "ویرایش پروفایل";
+}
+
+<section class="m-profile manage-p">
+    <div class="container h-100">
+        <form class="row align-items-center justify-content-center h-100" method="post"
+              asp-action="Edit" asp-controller="Profile" enctype="multipart/form-data">
+            @Html.HiddenFor(m => m.UserId)
+            <div class="col-lg-10">
+                <div class="sign-user_card">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="upload_profile d-inline-block">
+                                <img src="/Images/Profile/@ViewBag.imageName" class="profile-pic rounded-circle img-fluid" style="width:200px;height:130px" alt="user">
+                                <div class="p-image">
+                                    <i class="ri-pencil-line upload-button"></i>
+                                    <input class="file-upload" asp-for="ImageName" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10 device-margin">
+                            <div class="profile-from">
+                                <h4 class="mb-3">مدیریت نمایه</h4>
+
+                                <div class="form-group">
+                                    <label asp-for="Email"></label>
+                                    <input asp-for="Email" class="form-control mb-0" placeholder="ایمیل را وارد کنید" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="UserName"></label>
+                                    <input asp-for="UserName" class="form-control mb-0" placeholder="نام کاربری را وارد کنید" />
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+                                <div class="d-flex">
+                                    <button type="submit" class="btn btn-hover">ذخیره</button>
+                                    <a href="/Users/Home/ShowProfile" class="btn btn-link">لغو</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

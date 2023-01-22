@@ -1,0 +1,92 @@
+﻿@model SiteMovie.Domain.ViewModels.EditMovieViewModels
+@using SiteMovie.Domain.Models
+@{
+    ViewData["Title"] = "ویرایش فیلم";
+    List<CategoryToMovies> category = ViewBag.movieGroups;
+}
+<h4>ویرایش فیلم</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            @Html.HiddenFor(m => m.Id)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label asp-for="MovieTitle" class="control-label"></label>
+                    <input asp-for="MovieTitle" class="form-control" />
+                    <span asp-validation-for="MovieTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="Country" class="control-label"></label>
+                    <input asp-for="Country" class="form-control" />
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="Actors" class="control-label"></label>
+                    <input asp-for="Actors" class="form-control" />
+                    <span asp-validation-for="Actors" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="Director" class="control-label"></label>
+                    <input asp-for="Director" class="form-control" />
+                    <span asp-validation-for="Director" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="PublishDate" class="control-label"></label>
+                    <input asp-for="PublishDate" class="form-control" />
+                    <span asp-validation-for="PublishDate" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="imdbRating" class="control-label"></label>
+                    <input asp-for="imdbRating" class="form-control" />
+                    <span asp-validation-for="imdbRating" class="text-danger"></span>
+                </div>
+                <div class="panel-group col-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">انتخاب گروه</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                @foreach (var item in ViewBag.categories)
+                                {
+                                    <p class="col-4">
+                                        <input type="checkbox" @((category.Any(g => g.CategoryId == item.Id)) ? "checked" : "") name="selectedGroups" value="@item.Id" /> <span>@item.GroupTitle</span>
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-8">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="MovieImage" class="control-label"></label>
+                    <input asp-for="MovieImage" accept="image/*"/>
+                    <span asp-validation-for="MovieImage" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="Demo" class="control-label"></label>
+                    <input asp-for="Demo" accept="video/*"/>
+                    <span asp-validation-for="Demo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ویرایش" class="btn btn-warning" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/site.js"></script>
+}

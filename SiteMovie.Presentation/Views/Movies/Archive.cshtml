@@ -1,0 +1,108 @@
+﻿@using SiteMovie.Domain.Models
+@model IEnumerable<ShowListMoviesViewModel>
+
+@{
+    ViewData["Title"] = "آرشیو فیلم ها";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-xl-3  col-12" style="margin-top: 4.5rem; padding-bottom: .5rem">
+            <section class="border-radius">
+                <header><h3> فیلتر ها  </h3></header>
+                <article class="filter">
+                    <form action="/Archive">
+                        <p>نام فیلم</p>
+                        <p>
+                            <input type="text" name="title" class="form-control" value="@ViewBag.movieTitle" />
+                        </p>
+                        @{
+                            List<Category> list = ViewBag.Categories as List<Category>;
+                            List<int> selected = ViewBag.selectedGroups ?? new List<int>();
+                        }
+                        <p> گروه ها </p>
+                        <ul>
+                            @foreach (var group in list)
+                            {
+                                <li>
+                                    <input type="checkbox" name="selectedGroups" @((selected.Any(s => s == group.Id)) ? "checked" : "") value="@group.Id" />
+                                    <span>@group.GroupTitle</span>
+                                </li>
+                            }
+                        </ul>
+                        <input type="submit" class="btn btn-block btn-info" value="اعمال" />
+                    </form>
+                </article>
+            </section>
+        </div>
+
+
+        @if (Model.Any())
+        {
+            <div class="col-md-9 col-xl-9 col-12" style="margin-top: 4.5rem; padding-bottom: .5rem">
+                @foreach (var item in Model)
+                {
+                    <div class="card" style="width: 14rem; display:inline-block; margin:0 3px 3px 3px;">
+                        <img class="card-img-top" src="/Images/Movies/@item.MovieImage" style="width:230px;height:230px" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color:black;">@item.MovieTitle</h5>
+                            <a href="/ShowMovie/@item.Id" class="btn btn-primary">جزئیات</a>
+                        </div>
+                    </div>
+                }
+
+                @if (pager.TotalPages > 0)
+                {
+                    <ul class="pagination justify-content-end">
+
+                        @if (pager.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Movies" asp-action="Archive" asp-route-pageId="1">صفحه اول</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Movies" asp-action="Archive" asp-route-pageId="@(pager.CurrentPage-1)">قبلی</a>
+                            </li>
+                        }
+
+                        @for (int pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                        {
+                            <li class="page-item @(pge==pager.CurrentPage?"active":"")">
+                                <a class="page-link" asp-controller="Movies" asp-action="Archive" asp-route-pageId="@pge">@pge</a>
+                            </li>
+                        }
+
+                        @if (pager.CurrentPage < pager.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Movies" asp-action="Archive" asp-route-pageId="@(pager.CurrentPage+1)">بعدی</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Movies" asp-action="Archive" asp-route-pageId="@(pager.TotalPages)">صفحه آخر</a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="info">
+                <div id="show-info">موردی یافت نشد.</div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/site.js"></script>
+}

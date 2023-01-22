@@ -1,0 +1,48 @@
+﻿@model IEnumerable<SiteMovie.Domain.ViewModels.ListMovieLinksViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>لینک‌ها</h4>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">افزودن لینک</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Attachment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LinkTitle)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Attachment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LinkTitle)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">ویرایش</a> |
+                    <a onclick="DeleteLink(@item.Id)" class="btn btn-danger">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="_Modal" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/site.js"></script>
+}

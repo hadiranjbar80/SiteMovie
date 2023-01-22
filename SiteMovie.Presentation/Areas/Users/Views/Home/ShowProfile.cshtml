@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> signInManager
+@model SiteMovie.Domain.ViewModels.ShowUserProfileViewModel
+@{
+    ViewData["Title"] = "پنل کاربری";
+}
+
+<section class="m-profile setting-wrapper">
+    <div class="container">
+        <h4 class="main-title mb-4">تنظیمات حساب</h4>
+        <div class="row">
+            <div class="col-lg-4 mb-3">
+                <div class="sign-user_card text-center">
+                    <img src="/Images/Profile/@Model.ImageName" style="width:150px;height:130px" class="rounded-circle img-fluid d-block mx-auto mb-3" alt="user">
+                    <h4 class="mb-3">@Model.UserName</h4>
+                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است </p>
+                    <a href="/Users/Profile/Edit" class="edit-icon text-primary">ویرایش</a>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="sign-user_card">
+                    <h5 class="mb-3 pb-3 a-border">مشخصات شخصی</h5>
+
+                    <div class="row align-items-center justify-content-between mb-3">
+                        <div class="col-md-8">
+                            <span class="text-light font-size-13">ایمیل</span>
+                            <p class="mb-0">@Model.Email</p>
+                        </div>
+                    </div>
+                    @if (Model.ExpireDateSubscription != "")
+                    {
+                        <div class="row align-items-center justify-content-between mb-3">
+                            <div class="col-md-8">
+                                <span class="text-light font-size-13">تاریخ انقضا</span>
+                                <p class="mb-0">@Model.ExpireDateSubscription</p>
+                            </div>
+                        </div>
+                    }
+                    <h5 class="mb-3 mt-4 pb-3 a-border">جزئیات طرح</h5>
+                    <div class="row justify-content-between mb-3">
+                        <div class="col-md-8">
+                            <p>@Model.SubscriptionTitle</p>
+                        </div>
+                        @if (ViewBag.ShowPaymentSection)
+                        {
+                            <div class="col-md-4 text-md-right text-left">
+                                <a asp-action="OnlinePayment" asp-controller="Home" class="text-primary">پرداخت</a>
+                            </div>
+                        }
+                        @if (!ViewBag.ShowPaymentSection)
+                        {
+                            <form asp-controller="Home" asp-action="ChangeSubscription" method="post">
+                                <div class="custom-control custom-radio mt-2 text-left">
+                                    <select name="selectedOption" id="selectedOption">
+                                        <option value="tree-months">
+                                            ویژه 150000 تومان / 3 ماهه
+                                            با 5 روز آزمایش رایگان
+                                        </option>
+                                        <option value="one-month"> پایه 80000 تومان / 1 ماه</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <input type="submit" value="تمدید اشتراک" class="btn btn-hover iq-button" />
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

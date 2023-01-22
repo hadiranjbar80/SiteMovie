@@ -1,0 +1,20 @@
+﻿@model IEnumerable<SiteMovie.Domain.Models.Movies>
+<div class="iq-sub-dropdown">
+    <div class="iq-card shadow-none m-0">
+        <div class="iq-card-body">
+            @foreach (var item in Model)
+            {
+                <a href="/ShowMovie/@item.Id" class="iq-sub-card">
+                    <div class="media align-items-center">
+                        <img src="~/Images/Movies/@item.MovieImage" class="img-fluid mr-3"
+                             alt="streamit" width="100px" height="100px"/>
+                        <div class="media-body">
+                            <h6 class="mb-0 ">@item.MovieTitle</h6>
+                            <small class="font-size-12">@item.CreateDate.ToString()</small>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>

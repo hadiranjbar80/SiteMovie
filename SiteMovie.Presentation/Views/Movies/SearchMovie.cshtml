@@ -1,0 +1,26 @@
+﻿@using SiteMovie.Domain.Models
+@model IEnumerable<Movies>
+<div class="container">
+    <div class="row">
+        @if (Model.Any())
+        {
+            <div style="margin-top: 4.5rem; padding-bottom: .5rem">
+                <div class="alert alert-info">تعداد @Model.Count() فیلم با کلمه @ViewBag.search یافت شد.</div>
+                @foreach (var item in Model)
+                {
+                    <div class="card" style="width: 14rem; display:inline-block; margin:0 3px 3px 3px;">
+                        <img class="card-img-top" src="/Images/Movies/@item.MovieImage" style="width:230px;height:230px" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color:black;">@item.MovieTitle</h5>
+                            <a href="/ShowMovie/@item.Id" class="btn btn-primary">جزئیات</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">موردی یافت نشد.</div>
+        }
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿@model IEnumerable<SiteMovie.Domain.Models.MovieLinks>
+
+@{
+    ViewData["Title"] = "";
+}
+
+<form asp-action="LinkToMovies" asp-controller="Movies" method="post">
+    <input type="hidden" name="movieId" value="@ViewBag.movieId"/>
+    <p> لینک‌ها </p>
+    @if (Model.Any())
+    {
+        <ul>
+            @foreach (var group in Model)
+            {
+                <li>
+                    <input type="checkbox" name="selectedLinks" value="@group.Id" />
+                    <span>@group.LinkTitle</span>
+                </li>
+            }
+        </ul>
+        <input type="submit" class="btn btn-primary" value="ثبت" />
+    }
+    else
+    {
+        <div class="alert alert-warning">موردی یافت نشد.</div>
+    }
+</form>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
