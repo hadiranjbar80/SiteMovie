@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="/Admincontent/dist/css/bootstrap-rtl.min.css">
     <!-- template rtl version -->
     <link rel="stylesheet" href="/Admincontent/dist/css/custom-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
 </head>
 <body class="hold-transition sidebar-mini">
@@ -436,6 +437,9 @@
     <link href="~/AdminContent/dist/css/kendo.default.min.css" rel="stylesheet" />
 
     <script src="~/AdminContent/dist/js/kendo.all.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    @await Html.PartialAsync("_notificationPartial")
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

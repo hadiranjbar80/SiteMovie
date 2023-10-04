@@ -52,7 +52,7 @@ namespace SiteMovie.Presentation.Areas.Admin.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        [RequestFormLimits(MultipartBodyLengthLimit = 1073741824)]
+        [RequestFormLimits(MultipartBodyLengthLimit = 99999999999)]
         public async Task<IActionResult> Create(AddLinkViewModel addLink)
         {
             if (ModelState.IsValid)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SiteMovie.Domain.Models;
 using SiteMovie.Domain.ViewModels;
 using SiteMovie.Repository;
@@ -15,12 +16,13 @@ namespace SiteMovie.Presentation.Areas.Users.Controllers
 {
     [Area("Users")]
     [Authorize]
-    public class ProfileController : Controller
+    public class ProfileController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProfileController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public ProfileController(ApplicationDbContext context, UserManager<ApplicationUser> userManager,IConfiguration configuration)
+            :base(configuration)
         {
             _context = context;
             _userManager = userManager;
@@ -31,7 +33,7 @@ namespace SiteMovie.Presentation.Areas.Users.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
             var user = await _userManager.FindByIdAsync(userId);
-            ViewBag.imageName = user.ImageName.ToString() ?? "";
+           // ViewBag.imageName = user.ImageName.ToString() ?? "";
             EditProfileViewModel editProfile = new()
             {
                 Email = user.Email,
@@ -68,7 +70,7 @@ namespace SiteMovie.Presentation.Areas.Users.Controllers
 
                     var user = await _userManager.FindByIdAsync(editProfile.UserId);
 
-                    user.ImageName = imageFileName;
+                  //  user.ImageName = imageFileName;
                     user.UserName = editProfile.UserName;
                     user.Email = editProfile.Email;
                     // user.EmailConfirmed = false;
@@ -83,6 +85,7 @@ namespace SiteMovie.Presentation.Areas.Users.Controllers
                 {
                     throw new Exception(ex.Message);
                 }
+                Notify("پروفایل با موفقیت ویرایش شد", "ویرایش پروفایل", NotificationType.success);
                 return RedirectToAction("ShowProfile", "Home", "Users");
             }
 

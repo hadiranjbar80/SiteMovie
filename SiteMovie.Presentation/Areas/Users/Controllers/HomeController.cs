@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SiteMovie.Domain.Models;
 using SiteMovie.Domain.ViewModels;
 using SiteMovie.Repository;
@@ -15,12 +16,14 @@ namespace SiteMovie.Presentation.Areas.Users.Controllers
 {
     [Area("Users")]
     [Authorize(Roles = "Admin,User")]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        IConfiguration _configuration;
 
-        public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public HomeController(IConfiguration configuration, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+            :base(configuration)
         {
             _context = context;
             _userManager = userManager;
@@ -40,7 +43,7 @@ namespace SiteMovie.Presentation.Areas.Users.Controllers
                 UserName = user.UserName,
                 SubscriptionTitle = (subscription != null ? subscription.Title : ""),
                 IsFinally = (subscription != null ? subscription.IsFinally : false),
-                ImageName = user.ImageName
+               // ImageName = user.ImageName
             };
             return View(showUserProfile);
         }
@@ -126,7 +129,8 @@ namespace SiteMovie.Presentation.Areas.Users.Controllers
             subscription.IsFinally = true;
             _context.Update(subscription);
             _context.SaveChanges();
-            return View();
+            Notify("اشتراک با موفقیت خریداری شد.", "خرید اشتراک", NotificationType.success);
+            return RedirectToAction("ShowProfile");
         }
 
         #endregion

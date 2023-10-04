@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/Theme/css/responsive.css" />
     <link rel="stylesheet" href="~/css/owl.carousel.min.css" />
     <link rel="stylesheet" href="~/css/owl.theme.green.min.css" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -281,7 +281,7 @@
     <!-- Custom JS-->
     <script src="~/Theme/js/custom.js">
 
-     
+
     </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
@@ -299,12 +299,15 @@
         });
     </script>
     <script>
-       
+
         $(document).ready(function () {
             $(".owl-carousel").owlCarousel();
         });
-       
+
     </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    @await Html.PartialAsync("_notificationPartial")
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
